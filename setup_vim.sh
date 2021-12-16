@@ -128,6 +128,9 @@ syntax on                 \" required
 autocmd Filetype Jenkinsfile,ansible,yaml,bash,sh,python,groovy,json,ruby,yaml.ansible AnyFoldActivate
 set foldlevel=0
 
+\" autocomplete
+let g:deoplete#enable_at_startup = 1
+
 \" vim-jenkins to interact with jenkins (pipelines)
 let g:jenkins_url = '$JENKINS_URL'
 let g:jenkins_username = '$JENKINS_USERNAME'
