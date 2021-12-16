@@ -103,7 +103,7 @@ set encoding=utf-8
 
 \"set number
 set expandtab
-set tabstop=4
+set tabstop=2
 
 \"nerdtree hide
 nmap <F2> :NERDTreeToggle<CR>
@@ -120,7 +120,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 
 \" leader
-let mapleader=" "
+let mapleader=' '
 
 \" anyfold
 filetype plugin indent on \" required

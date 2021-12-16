@@ -19,7 +19,7 @@ Behavior:
 
 # setup_vim.sh
 
-installs vim, plugins and dependencies (every now and then new setup is required and I'm alwasy forgetting list of plugins)
+installs vim, plugins and dependencies (every now and then new setup is required and I always forget list of plugins)
 
 
 # gen_pass.sh
