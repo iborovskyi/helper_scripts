@@ -44,3 +44,10 @@ Usage:
 
     jenkins_exp-imp_job.sh get-job JENKINS_JOB_NAME
     jenkins_exp-imp_job.sh create-job PATH_TO_XML
+
+Configuration:
+```
+export JENKINS_USER_ID=''                            # jenkins user id
+export JENKINS_API_TOKEN=''                          # jenkins api token
+JENKINS_URL='http://jenkins.example.com:8080'        # jenkins url (with port)
+```
