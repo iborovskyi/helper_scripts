@@ -35,3 +35,12 @@ Usage:
     -c|--count - password count
 
 EXAMPLE: ./gen_pass.sh -d -p -s 16 -c 4
+
+# jenkins_exp-imp_job.sh
+
+export-import jenkins freestyle job
+
+Usage:
+
+    jenkins_exp-imp_job.sh get-job JENKINS_JOB_NAME
+    jenkins_exp-imp_job.sh create-job PATH_TO_XML
