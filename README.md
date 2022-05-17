@@ -41,9 +41,10 @@ EXAMPLE: ./gen_pass.sh -d -p -s 16 -c 4
 export-import jenkins freestyle job
 
 Usage:
-
-    jenkins_exp-imp_job.sh get-job JENKINS_JOB_NAME
-    jenkins_exp-imp_job.sh create-job PATH_TO_XML
+```
+    jenkins_exp-imp_job.sh get-job <JENKINS_JOB_NAME>
+    create-job <PATH_TO_XML> <JOB_NAME (optional)>    # by default JOB_NAME equals XML name without .xml
+```
 
 Configuration:
 ```
