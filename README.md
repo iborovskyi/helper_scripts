@@ -42,8 +42,9 @@ export-import jenkins freestyle job
 
 Usage:
 ```
-    jenkins_exp-imp_job.sh get-job <JENKINS_JOB_NAME>
-    create-job <PATH_TO_XML> <JOB_NAME (optional)>    # by default JOB_NAME equals XML name without .xml
+    get-job <JENKINS_JOB_NAME> - export frestyle job to current workdir;
+    create-job <PATH_TO_XML> <JOB_NAME (optional)> - import job xml;
+                                                     by default JOB_NAME equals XML name without .xml
 ```
 
 Configuration:
