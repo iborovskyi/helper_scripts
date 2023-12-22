@@ -2,11 +2,12 @@
 
 ##
 ## Install vim - FreeBSD, apt-based, rpm-based
+## add support MAC
 ##
-PKG_MANAGERS=( `which pkg` `which apt-get` `which yum` )
+PKG_MANAGERS=( `which pkg` `which apt-get` `which yum` `which brew` )
 
 declare -A PKG_INSTALL_CMDS
-PKG_INSTALL_CMDS=( [pkg]="add" [apt-get]="install" [yum]="install" )
+PKG_INSTALL_CMDS=( [pkg]="add" [apt-get]="install" [yum]="install" [brew]="install" )
 
 for mgr in $PKG_MANAGERS; do
         if [ -n "$mgr" ]; then
@@ -15,11 +16,16 @@ for mgr in $PKG_MANAGERS; do
 done
 
 if [ -z "$PKG_MGR_CMD" ]; then
-        echo "No apt/pkg/yum found. Please update PKG_MANAGERS array with valid package manager."
+        echo "No apt/pkg/yum/brew found. Please update PKG_MANAGERS array with the valid package manager."
         exit 1
 fi
 
-sudo $PKG_MGR_CMD ${PKG_INSTALL_CMDS["$(echo $PKG_MGR_CMD | awk -F '/' '{ print $NF }')"]} vim git python3 python3-pip
+
+if [ "PKG_MGR_CMD" == "brew" ]; then
+        sudo $PKG_MGR_CMD ${PKG_INSTALL_CMDS["$(echo $PKG_MGR_CMD | awk -F '/' '{ print $NF }')"]} vim git python3 python3-pip
+else
+        $PKG_MGR_CMD ${PKG_INSTALL_CMDS["$(echo $PKG_MGR_CMD | awk -F '/' '{ print $NF }')"]} vim git python3 python3-pip
+fi
 pip3 install --user pynvim
 ##
 ##
@@ -138,6 +144,14 @@ let g:jenkins_password = '$JENKINS_TOKEN'
 " > ~/.vimrc
 
 vim ~/.vimrc -c PlugInstall
+
+#MAC support backspace
+echo $PKG_MGR_CMD | grep brew
+if [ $(echo $PKG_MGR_CMD | grep brew) ]; then
+  echo "Adding fix for backspace on mac"
+  echo "set backspace=indent,eol,start" >> ~/.vimrc
+fi
+echo "Install success. Regards"
 ##
 ##
 ##
