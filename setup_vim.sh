@@ -4,10 +4,10 @@
 ## Install vim - FreeBSD, apt-based, rpm-based
 ## add support MAC
 ##
-PKG_MANAGERS=( `which pkg` `which apt-get` `which yum` `which brew` )
+PKG_MANAGERS=( `which pkg` `which apt-get` `which yum` `which brew` `which pacman`)
 
 declare -A PKG_INSTALL_CMDS
-PKG_INSTALL_CMDS=( [pkg]="add" [apt-get]="install" [yum]="install" [brew]="install" )
+PKG_INSTALL_CMDS=( [pkg]="add" [apt-get]="install" [yum]="install" [brew]="install" [pacman]="install")
 
 for mgr in $PKG_MANAGERS; do
         if [ -n "$mgr" ]; then
