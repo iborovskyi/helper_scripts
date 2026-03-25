@@ -4,12 +4,18 @@
 ## Install vim - FreeBSD, apt-based, rpm-based
 ## add support MAC
 ##
-PKG_MANAGERS=( `which pkg` `which apt-get` `which yum` `which brew` `which pacman`)
+PKG_MANAGERS=(
+  "$(command -v pkg 2>/dev/null)"
+  "$(command -v apt-get 2>/dev/null)"
+  "$(command -v yum 2>/dev/null)"
+  "$(command -v brew 2>/dev/null)"
+  "$(command -v pacman 2>/dev/null)"
+)
 
 declare -A PKG_INSTALL_CMDS
 PKG_INSTALL_CMDS=( [pkg]="add" [apt-get]="install" [yum]="install" [brew]="install" [pacman]="install")
 
-for mgr in $PKG_MANAGERS; do
+for mgr in "${PKG_MANAGERS[@]}"; do
         if [ -n "$mgr" ]; then
                 PKG_MGR_CMD="$mgr"
         fi
@@ -21,10 +27,11 @@ if [ -z "$PKG_MGR_CMD" ]; then
 fi
 
 
-if [ "PKG_MGR_CMD" == "brew" ]; then
-        sudo $PKG_MGR_CMD ${PKG_INSTALL_CMDS["$(echo $PKG_MGR_CMD | awk -F '/' '{ print $NF }')"]} vim git python3 python3-pip
+mgr_key="${PKG_MGR_CMD##*/}"
+if [ "$mgr_key" == "brew" ]; then
+        sudo "$PKG_MGR_CMD" "${PKG_INSTALL_CMDS["$mgr_key"]}" vim git python3 python3-pip
 else
-        $PKG_MGR_CMD ${PKG_INSTALL_CMDS["$(echo $PKG_MGR_CMD | awk -F '/' '{ print $NF }')"]} vim git python3 python3-pip
+        "$PKG_MGR_CMD" "${PKG_INSTALL_CMDS["$mgr_key"]}" vim git python3 python3-pip
 fi
 pip3 install --user pynvim
 ##
@@ -146,10 +153,21 @@ let g:jenkins_password = '$JENKINS_TOKEN'
 vim ~/.vimrc -c PlugInstall
 
 #MAC support backspace
-echo $PKG_MGR_CMD | grep brew
-if [ $(echo $PKG_MGR_CMD | grep brew) ]; then
+if echo "$PKG_MGR_CMD" | grep -q brew; then
   echo "Adding fix for backspace on mac"
-  echo "set backspace=indent,eol,start" >> ~/.vimrc
+  # Ensure built-in Vim backspace behaves properly on macOS terminal setups.
+  grep -q "^set backspace=indent,eol,start$" ~/.vimrc || echo "set backspace=indent,eol,start" >> ~/.vimrc
+
+  # Deoplete refreshes candidates on <BS>/<C-h> and uses its internal <Plug>_ mapping.
+  # Disabling this prevents the literal "<Plug>_" from being shown/inserted when backspacing.
+  if ! grep -q "refresh_backspace" ~/.vimrc; then
+    cat >> ~/.vimrc <<'EOF'
+
+if exists('*deoplete#custom#option')
+  call deoplete#custom#option('refresh_backspace', v:false)
+endif
+EOF
+  fi
 fi
 echo "Install success. Regards"
 ##
